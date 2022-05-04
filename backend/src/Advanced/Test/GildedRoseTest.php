@@ -187,12 +187,12 @@ class GildedRoseTest extends TestCase
             ],
             'updates Conjured items on the sell date' => [
                 'item' => GildedRose::of('Conjured', 10, 0),
-                'expectedQuality' => 8,
+                'expectedQuality' => 6,
                 'expectedSellIn' => -1,
             ],
             'updates Conjured items after the sell date' => [
                 'item' => GildedRose::of('Conjured', 10, -5),
-                'expectedQuality' => 8,
+                'expectedQuality' => 6,
                 'expectedSellIn' => -6,
             ],
             'updates Conjured items with a quality of 0' => [
