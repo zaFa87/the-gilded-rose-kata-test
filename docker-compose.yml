@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  advanced:
+    build: ./backend
+    volumes:
+      - ./backend:/var/www/backend
+    entrypoint: /var/www/backend/docker/entrypoint.sh
