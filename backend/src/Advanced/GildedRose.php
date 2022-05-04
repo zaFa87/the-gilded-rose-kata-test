@@ -21,7 +21,7 @@ class GildedRose
         return new static($name, $quality, $sellIn);
     }
 
-    public function itemAgedBrie(){
+    public function agedBrieItem(){
         $this->sellIn = $this->sellIn - 1;
         
         if ($this->quality < 50)
@@ -31,11 +31,11 @@ class GildedRose
             $this->quality = $this->quality + 1;        
     }
 
-    public function itemSulfuras(){
+    public function sulfurasItem(){
         return;
     }
 
-    public function itemBackstage(){
+    public function backstagePasses(){
         $this->sellIn = $this->sellIn - 1;
 
         if ($this->quality < 50) {
@@ -58,7 +58,7 @@ class GildedRose
             $this->quality = $this->quality - $this->quality;
     }
 
-    public function itemNormal(){
+    public function normalItem(){
         if ($this->quality > 0) {
             $this->quality = $this->quality - 1;
         }
@@ -71,24 +71,47 @@ class GildedRose
         }
     }
 
+    public function conjuredItem(){
+        if ($this->quality > 1) {
+            $this->quality = $this->quality - 2;
+        }else{
+            $this->quality = $this->quality - 1;
+        }
+        
+        $this->sellIn = $this->sellIn - 1;
+
+        if ($this->sellIn < 0) {
+            if ($this->quality > 2) {
+                $this->quality = $this->quality - 2;
+            }else{
+                $this->quality = $this->quality - 1;
+            }
+        }
+    }
+
     public function tick()
     {
         if($this->name == 'Aged Brie'){
-            $this->itemAgedBrie();
+            $this->agedBrieItem();
             return;
         }
 
         if($this->name == 'Sulfuras, Hand of Ragnaros'){
-            $this->itemSulfuras();
+            $this->sulfurasItem();
             return;
         }
 
         if($this->name == 'Backstage passes to a TAFKAL80ETC concert'){
-            $this->itemBackstage();
+            $this->backstagePasses();
             return;
         }
 
-        $this->itemNormal();
+        if($this->name == 'Conjured'){
+            $this->conjuredItem();
+            return;
+        }
+
+        $this->normalItem();
         return;
     }
 }
