@@ -23,12 +23,10 @@ class GildedRose
 
     public function agedBrieItem(){
         $this->sellIn = $this->sellIn - 1;
+        $this->quality = min($this->quality + 1, 50);
         
-        if ($this->quality < 50)
-            $this->quality = $this->quality + 1;
-
-        if ($this->sellIn <= 0 and $this->quality < 50) 
-            $this->quality = $this->quality + 1;        
+        if ($this->sellIn <= 0) 
+            $this->quality = min($this->quality + 1, 50);        
     }
 
     public function sulfurasItem(){
@@ -41,17 +39,11 @@ class GildedRose
         if ($this->quality < 50) {
             $this->quality = $this->quality + 1;
 
-            if ($this->sellIn < 10) {
-                if ($this->quality < 50){
-                    $this->quality = $this->quality + 1;
-                }
-            }
+            if ($this->sellIn < 10) 
+                $this->quality = min($this->quality + 1, 50);
 
-            if ($this->sellIn < 6) {
-                if ($this->quality < 50) {
-                    $this->quality = $this->quality + 1;
-                }
-            }
+            if ($this->sellIn < 6) 
+                $this->quality = min($this->quality + 1, 50);
         }
 
         if ($this->sellIn < 0)
@@ -59,34 +51,22 @@ class GildedRose
     }
 
     public function normalItem(){
-        if ($this->quality > 0) {
-            $this->quality = $this->quality - 1;
-        }
+        $this->quality = max($this->quality - 1, 0);
         $this->sellIn = $this->sellIn - 1;
 
-        if ($this->sellIn < 0) {
-            if ($this->quality > 0) {
-                $this->quality = $this->quality - 1;
-            }
-        }
+        if ($this->sellIn < 0)
+            $this->quality = max($this->quality - 1, 0);
     }
 
-    public function conjuredItem(){
-        if ($this->quality > 1) {
-            $this->quality = $this->quality - 2;
-        }else{
-            $this->quality = $this->quality - 1;
-        }
-        
+    public function conjuredItem()
+    {
         $this->sellIn = $this->sellIn - 1;
 
-        if ($this->sellIn < 0) {
-            if ($this->quality > 2) {
-                $this->quality = $this->quality - 2;
-            }else{
-                $this->quality = $this->quality - 1;
-            }
-        }
+        if ($this->quality > 0)
+            $this->quality = max($this->quality - 2, 0);
+
+        if ($this->sellIn < 0) 
+            $this->quality = max($this->quality - 2, 0);
     }
 
     public function tick()
