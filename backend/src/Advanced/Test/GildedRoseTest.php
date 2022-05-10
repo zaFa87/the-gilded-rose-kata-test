@@ -14,8 +14,9 @@ class GildedRoseTest extends TestCase
      * @dataProvider backstagePasses
      * @dataProvider conjuredItems
      */
-    public function test_it_creates_correctly(GildedRose $item, int $expectedQuality, int $expectedSellIn): void
+    public function test_it_creates_correctly($item, int $expectedQuality, int $expectedSellIn): void
     {
+        
         $item->tick();
 
         self::assertEquals($item->quality, $expectedQuality);

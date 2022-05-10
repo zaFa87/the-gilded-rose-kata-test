@@ -2,6 +2,39 @@
 
 namespace Dyflexis\Applicants\Advanced;
 
+class Items
+{
+    public $quality;
+
+    public $sellIn;
+
+    public function __construct($quality, $sellIn)
+    {
+        $this->quality = $quality;
+        $this->sellIn = $sellIn;
+    }
+
+    public function tick()
+    {
+        $this->quality = max($this->quality - 1, 0);
+        $this->sellIn = $this->sellIn - 1;
+
+        if ($this->sellIn < 0)
+            $this->quality = max($this->quality - 1, 0);
+    }
+}
+
+class Aged extends Items
+{
+    public function tick(){
+        $this->sellIn = $this->sellIn - 1;
+        $this->quality = min($this->quality + 1, 50);
+            
+        if ($this->sellIn <= 0) 
+            $this->quality = min($this->quality + 1, 50);       
+    }
+}
+
 class GildedRose
 {
     public $name;
@@ -18,7 +51,13 @@ class GildedRose
     }
 
     public static function of($name, $quality, $sellIn) {
+        
+        if($name == 'Aged Brie'){
+            return new Aged($quality, $sellIn);
+        }
+        
         return new static($name, $quality, $sellIn);
+        
     }
 
     public function agedBrieItem(){
@@ -71,10 +110,10 @@ class GildedRose
 
     public function tick()
     {
-        if($this->name == 'Aged Brie'){
-            $this->agedBrieItem();
-            return;
-        }
+        // if($this->name == 'Aged Brie'){
+        //     $this->agedBrieItem();
+        //     return;
+        // }
 
         if($this->name == 'Sulfuras, Hand of Ragnaros'){
             $this->sulfurasItem();
