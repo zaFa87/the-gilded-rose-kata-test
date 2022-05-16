@@ -24,7 +24,7 @@ class Items
     }
 }
 
-class AgedBrieItem extends Items
+class AgedBrie extends Items
 {
     public function tick(){
         $this->sellIn = $this->sellIn - 1;
@@ -35,12 +35,12 @@ class AgedBrieItem extends Items
     }
 }
 
-class SulfurasItem extends Items
+class SulfurasHandofRagnaros extends Items
 {
     public function tick(){}
 }
 
-class BackstagePasses extends Items
+class BackstagepassestoaTAFKAL80ETCconcert extends Items
 {
     public function tick()
     {
@@ -61,7 +61,7 @@ class BackstagePasses extends Items
     }
 }
 
-class ConjuredItem extends Items
+class Conjured extends Items
 {
     public function tick()
     {
@@ -74,23 +74,30 @@ class ConjuredItem extends Items
             $this->quality = max($this->quality - 2, 0);
     }
 }
+
+class ForgeClassName{
+    public $name;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getClassName()
+    {
+        return 'Dyflexis\Applicants\Advanced\\'.preg_replace("/[\s,]/", "", $this->name);
+    }
+}
+
 class GildedRose
 {
     
     public static function of($name, $quality, $sellIn) {
-        
-        if($name == 'Aged Brie')
-            return new AgedBrieItem($quality, $sellIn);
-        
-        if($name == 'Sulfuras, Hand of Ragnaros')
-            return new SulfurasItem($quality, $sellIn);
-
-        if($name == 'Backstage passes to a TAFKAL80ETC concert')
-            return new BackstagePasses($quality, $sellIn);    
-
-        if($name == 'Conjured')
-            return new ConjuredItem($quality, $sellIn);
-        
+        $forgedName = new ForgeClassName($name);
+        $className = $forgedName->getClassName();
+        if(class_exists($className))
+            return new $className($quality, $sellIn);
+    
         return new Items($quality, $sellIn);   
     }
 }
